@@ -2,12 +2,12 @@ import express from 'express';
 import 'dotenv/config';
 import cors from 'cors';
 
-import {logger} from './middleware/logger.js';
+import { logger } from './middleware/logger.js';
 import { connectMongoDB } from './db/connectMongoDB.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
 import productsRoutes from './routes/productsRoutes.js';
-
+import helmet from 'helmet';
 
 const app = express();
 const PORT = process.env.PORT ?? 3030;
@@ -15,8 +15,9 @@ const PORT = process.env.PORT ?? 3030;
 app.use(logger);
 app.use(express.json());
 app.use(cors());
+app.use(helmet());
 
-app.use(productsRoutes)
+app.use(productsRoutes);
 
 app.use(errorHandler);
 app.use(notFoundHandler);

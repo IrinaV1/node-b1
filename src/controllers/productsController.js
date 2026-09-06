@@ -3,8 +3,25 @@ import { Product } from "../models/product.js";
 
 
 export const getAllProducts = async (req, res) => {
-    const products = await Product.find();
-    res.status(200).json(products);
+    const {page = 1, perPage = 10, category, search} = req.query;
+    const skip = (page - 1) * perPage;
+
+    const productsQuery = Product.find();
+if(category){
+productsQuery.where('category').equals(category);
+};
+
+if(search) {
+    productsQuery.where({ name: {$regex: search, $options: 'i'} });
+};
+
+const [totalProducts, products] = await Promise.all([
+    productsQuery.clone().countDocuments(),
+    productsQuery.skip(skip).limit(perPage),
+]);
+const totalPages = Math.ceil(totalProducts / perPage);
+
+    res.status(200).json({ page, perPage, totalProducts, totalPages, products });
 }
 
 export const getProductById = async (req, res) => {

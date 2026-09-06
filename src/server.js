@@ -7,7 +7,9 @@ import { connectMongoDB } from './db/connectMongoDB.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
 import productsRoutes from './routes/productsRoutes.js';
-
+import authRoutes from './routes/authRoutes.js';
+import cookieParser from 'cookie-parser';
+import { errors } from 'celebrate';
 
 const app = express();
 const PORT = process.env.PORT ?? 3030;
@@ -15,11 +17,14 @@ const PORT = process.env.PORT ?? 3030;
 app.use(logger);
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
 
-app.use(productsRoutes)
+app.use(productsRoutes);
+app.use(authRoutes);
 
-app.use(errorHandler);
 app.use(notFoundHandler);
+app.use(errors());
+app.use(errorHandler);
 
 await connectMongoDB();
 

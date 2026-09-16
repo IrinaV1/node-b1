@@ -1,4 +1,5 @@
 import { model, Schema } from 'mongoose';
+import { TAGS } from '../constants/tags.js';
 
 const productSchema = new Schema(
   {
@@ -14,7 +15,7 @@ const productSchema = new Schema(
     },
     category: {
       type: String,
-      enum: ['books', 'electronics', 'clothing', 'other'],
+      enum: TAGS,
       //   required: true,
       default: 'other',
     },

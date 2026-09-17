@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose';
-import { TAGS } from '../constants/tags.js';
+import { CATEGORIES } from '../constants/categories.js';
 
 const productSchema = new Schema(
   {
@@ -15,13 +15,12 @@ const productSchema = new Schema(
     },
     category: {
       type: String,
-      enum: TAGS,
-      //   required: true,
+      enum: CATEGORIES,
       default: 'other',
     },
     description: {
       type: String,
-      default: '',
+      // default: '',
     },
   },
   {

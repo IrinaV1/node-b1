@@ -8,6 +8,7 @@ import { errorHandler } from './middleware/errorHandler.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
 import productsRoutes from './routes/productsRoutes.js';
 import helmet from 'helmet';
+import authRoutes from './routes/authRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT ?? 3030;
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use(cors());
 app.use(helmet());
 
+app.use(authRoutes);
 app.use(productsRoutes);
 
 app.use(errorHandler);
